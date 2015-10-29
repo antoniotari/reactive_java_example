@@ -3,6 +3,7 @@ package com.antoniotari.rxjavastudy;
 import com.antoniotari.rxjavastudy.common.CreateObservable;
 import com.antoniotari.rxjavastudy.common.Program;
 import rx.Observable;
+import rx.functions.Func1;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 
@@ -16,33 +17,28 @@ import java.util.regex.Pattern;
  */
 public class ReactiveSumV2 implements Program {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    //private CountDownLatch latch = new CountDownLatch(1);
 
     public static Observable<Double> varStream(final String varName, Observable<String> input) {
-        final Pattern pattern = Pattern.compile("\\s*" + varName
-                + "\\s*[:|=]\\s*(-?\\d+\\.?\\d*)");
-
+        final Pattern pattern = Pattern.compile("\\s*" + varName + "\\s*[:|=]\\s*(-?\\d+\\.?\\d*)");
         return input
                 .map(pattern::matcher)
-                .filter(matcher -> matcher.matches()
-                        && matcher.group(1) != null)
+                .filter(matcher -> matcher.matches() && matcher.group(1) != null)
                 .map(matcher -> matcher.group(1))
                 .map(Double::parseDouble);
     }
 
     public void reactiveSum(Observable<Double> a, Observable<Double> b) {
-
         Observable
-                .combineLatest(a.startWith(0.0), b.startWith(0.0), (x, y) -> x + y)
+                .combineLatest(a, b, (x, y) -> x + y)
                 .subscribeOn(Schedulers.io())
-                .subscribe(
-                        sum -> System.out.println("update : a + b = " + sum),
+                .subscribe(sum -> System.out.println("update : a + b = " + sum),
                         error -> {
                             System.out.println("Got an error!");
                             error.printStackTrace();
                         }, () -> {
                             System.out.println("Exiting...");
-                            latch.countDown();
+                            //latch.countDown();
                         });
 
     }
@@ -61,10 +57,10 @@ public class ReactiveSumV2 implements Program {
 
         input.connect();
 
-        try {
+        /*try {
             latch.await();
         } catch (InterruptedException e) {
-        }
+        }*/
     }
 
     @Override

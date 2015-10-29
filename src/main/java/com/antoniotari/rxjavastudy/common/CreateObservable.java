@@ -96,9 +96,9 @@ public class CreateObservable {
                     if (line.equals("exit")) {
                         break;
                     }
-
                     subscriber.onNext(line);
                 }
+
             } catch (IOException e) {
                 subscriber.onError(e);
             }
