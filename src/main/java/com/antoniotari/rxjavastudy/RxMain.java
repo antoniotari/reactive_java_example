@@ -23,9 +23,9 @@ public class RxMain implements Executor {
     private BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
 
     public static void main(String... args) throws InterruptedException {
-        RxMain sample = new RxMain();
-        sample.runProgram();
-        sample.runLoop();
+        RxMain rxMain = new RxMain();
+        rxMain.runProgram();
+        rxMain.runLoop();
     }
 
 

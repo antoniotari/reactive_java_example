@@ -3,6 +3,8 @@ package com.antoniotari.rxjavastudy;
 import com.antoniotari.rxjavastudy.common.CreateObservable;
 import com.antoniotari.rxjavastudy.common.Program;
 import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
 import rx.functions.Func1;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
@@ -40,8 +42,8 @@ public class ReactiveSumV2 implements Program {
                             System.out.println("Exiting...");
                             //latch.countDown();
                         });
-
     }
+    
 
     public String name() {
         return "Reactive Sum, version 2 (with lambdas)";
