@@ -2,14 +2,14 @@ package com.antoniotari.rxjavastudy.chapter03;
 
 import com.antoniotari.rxjavastudy.common.Program;
 
-import static com.antoniotari.rxjavastudy.common.Helpers.subscribePrint;
-
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscription;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
+
+import static com.antoniotari.rxjavastudy.common.Helpers.subscribePrint;
 
 
 /**
@@ -35,13 +35,13 @@ public class SubjectsDemonstration implements Program {
 	@Override
 	public void run() {
 
-		Observable<Long> interval = Observable.interval(100L,
-				TimeUnit.MILLISECONDS);
+		Observable<Long> interval = Observable.interval(100L, TimeUnit.MILLISECONDS);
 
 		Subject<Long, Long> publishSubject = PublishSubject.create();
-		interval.subscribe(publishSubject);
+        // PublishSubject starts emitting when it's subscribed to something
+        interval.subscribe(publishSubject);
 
-		Subscription sub1 = subscribePrint(publishSubject, "First");
+        Subscription sub1 = subscribePrint(publishSubject, "First");
 		Subscription sub2 = subscribePrint(publishSubject, "Second");
 
 		Subscription sub3 = null;
@@ -73,7 +73,6 @@ public class SubjectsDemonstration implements Program {
 		sub4.unsubscribe();
 
 		System.out.println("-----------------------------");
-
 	}
 
 	public static void main(String[] args) {
